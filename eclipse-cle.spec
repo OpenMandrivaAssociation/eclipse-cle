@@ -4,7 +4,7 @@
 
 Name:           eclipse-cle
 Version:        0.1.5
-Release:        %mkrel 0.0.1
+Release:        %mkrel 0.0.2
 Epoch:          0
 Summary:        Provides editing of grammar and scanner specification files
 License:        EPL
@@ -34,7 +34,6 @@ BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 
 %description
-
 CLE is an Eclipse plugin providing editing of grammar specification
 files used by CUP and scanner specification files used by JFlex.
 
