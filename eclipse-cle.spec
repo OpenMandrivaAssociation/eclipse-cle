@@ -4,7 +4,7 @@
 
 Name:           eclipse-cle
 Version:        0.1.5
-Release:        %mkrel 0.0.2
+Release:        %mkrel 0.0.3
 Epoch:          0
 Summary:        Provides editing of grammar and scanner specification files
 License:        EPL
@@ -95,15 +95,15 @@ export OPT_JAR_LIST=:
 (cd %{buildroot}%{eclipse_base}/plugins/pi.eclipse.cle_%{version} && %{jar} xf %{buildroot}%{eclipse_base}/plugins/pi.eclipse.cle_%{version}.jar)
 %{__rm} %{buildroot}%{eclipse_base}/plugins/pi.eclipse.cle_%{version}.jar
 
-#%{__mkdir_p} %{buildroot}%{eclipse_base}/plugins/pi.eclipse.cle_%{version}/lib
-%{_bindir}/build-jar-repository \
-    %{buildroot}%{eclipse_base}/plugins/pi.eclipse.cle_%{version} \
-    java-cup \
-    java-cup-runtime \
-    jflex \
-    log4j \
-    velocity \
-    jakarta-commons-collections
+%{__mkdir_p} %{buildroot}%{eclipse_base}/plugins/pi.eclipse.cle_%{version}/lib
+pushd %{buildroot}%{eclipse_base}/plugins/pi.eclipse.cle_%{version}/lib
+%{__ln_s} %{_javadir}/java-cup-runtime.jar java-cup-11-runtime.jar
+%{__ln_s} %{_javadir}/java-cup.jar java-cup-11.jar
+%{__ln_s} %{_javadir}/jflex.jar jflex-1.4.1.jar
+%{__ln_s} %{_javadir}/log4j.jar log4j-1.2.12.jar
+%{__ln_s} %{_javadir}/velocity.jar velocity-1.4.jar
+%{__ln_s} %{_javadir}/velocity.jar velocity-dep-1.4.jar
+popd
 
 %if %{gcj_support}
 %{_bindir}/aot-compile-rpm
