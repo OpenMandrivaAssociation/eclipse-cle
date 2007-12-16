@@ -4,7 +4,7 @@
 
 Name:           eclipse-cle
 Version:        0.1.5
-Release:        %mkrel 0.0.3
+Release:        %mkrel 0.0.4
 Epoch:          0
 Summary:        Provides editing of grammar and scanner specification files
 License:        EPL
@@ -17,7 +17,7 @@ Requires:       java-cup
 Requires:       jflex
 Requires:       log4j
 Requires:       velocity
-BuildRequires:  jpackage-utils >= 0:1.5
+BuildRequires:  java-rpmbuild >= 0:1.5
 BuildRequires:  ant >= 0:1.6
 BuildRequires:  eclipse-pde >= 1:%{eclipse_ver}
 BuildRequires:  jakarta-commons-collections
