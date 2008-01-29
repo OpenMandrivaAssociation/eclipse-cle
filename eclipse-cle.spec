@@ -3,8 +3,8 @@
 %define gcj_support     1
 
 Name:           eclipse-cle
-Version:        0.1.5
-Release:        %mkrel 0.0.4
+Version:        0.1.6
+Release:        %mkrel 0.0.1
 Epoch:          0
 Summary:        Provides editing of grammar and scanner specification files
 License:        EPL
