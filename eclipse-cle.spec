@@ -1,10 +1,11 @@
-%define eclipse_base    %{_datadir}/eclipse
-%define eclipse_ver     3.3
-%define gcj_support     1
+%define eclipse_base    %{_libdir}/eclipse
+%define install_dir	%{_datadir}/eclipse/dropins/cle
+%define eclipse_ver     3.4
+%define gcj_support     0
 
 Name:           eclipse-cle
 Version:        0.1.6
-Release:        %mkrel 0.0.1
+Release:        %mkrel 0.0.2
 Epoch:          0
 Summary:        Provides editing of grammar and scanner specification files
 License:        EPL
@@ -47,13 +48,13 @@ sources generation.
 
 %build
 for jar in \
-%{_jnidir}/swt-gtk-%{eclipse_ver}*.jar \
+%{_jnidir}/swt.jar \
 %{eclipse_base}/plugins/org.eclipse.core.commands_%{eclipse_ver}*.*.jar \
 %{eclipse_base}/plugins/org.eclipse.core.filebuffers_%{eclipse_ver}*.*.jar \
 %{eclipse_base}/plugins/org.eclipse.core.resources_%{eclipse_ver}*.*.jar \
 %{eclipse_base}/plugins/org.eclipse.core.runtime_%{eclipse_ver}*.*.jar \
-%{eclipse_base}/plugins/org.eclipse.jdt.core_%{eclipse_ver}*.*.jar \
-%{eclipse_base}/plugins/org.eclipse.jdt.ui_%{eclipse_ver}*.*.jar \
+%{eclipse_base}/dropins/jdt/plugins/org.eclipse.jdt.core_%{eclipse_ver}*.*.jar \
+%{eclipse_base}/dropins/jdt/plugins/org.eclipse.jdt.ui_%{eclipse_ver}*.*.jar \
 %{eclipse_base}/plugins/org.eclipse.jface_%{eclipse_ver}*.*.jar \
 %{eclipse_base}/plugins/org.eclipse.jface.text_%{eclipse_ver}*.*.jar \
 %{eclipse_base}/plugins/org.eclipse.osgi_%{eclipse_ver}*.*.jar \
@@ -68,7 +69,7 @@ for jar in \
 %{eclipse_base}/plugins/org.eclipse.equinox.common_%{eclipse_ver}*.*.jar \
 %{eclipse_base}/plugins/org.eclipse.equinox.registry_%{eclipse_ver}*.*.jar \
 %{eclipse_base}/plugins/org.eclipse.core.jobs_%{eclipse_ver}*.*.jar \
-%{eclipse_base}/plugins/org.eclipse.jdt.launching_%{eclipse_ver}*.*.jar \
+%{eclipse_base}/dropins/jdt/plugins/org.eclipse.jdt.launching_%{eclipse_ver}*.*.jar \
 %{eclipse_base}/plugins/org.eclipse.debug.core_%{eclipse_ver}*.*.jar \
 %{eclipse_base}/plugins/org.eclipse.ui.views_*.*.jar \
 %{eclipse_base}/plugins/org.eclipse.equinox.preferences_*.*.jar
@@ -80,7 +81,7 @@ done
 export CLASSPATH=$(build-classpath commons-collections java-cup jflex log4j velocity):${CLASSPATH}
 export OPT_JAR_LIST=:
 %{ant} -Dbuild.sysclasspath=only \
-    -Declipse.plugin.dir=%{eclipse_base}/plugins \
+    -Declipse.plugin.dir=%{install_dir}/plugins \
     -Dworkspace=.. \
     -Declipse.version=%{eclipse_ver} \
     -Dproject.name="CUP/LEX Editor Plugin"
@@ -88,15 +89,15 @@ export OPT_JAR_LIST=:
 %install
 %{__rm} -rf %{buildroot}
 
-%{__mkdir_p} %{buildroot}%{eclipse_base}
-%{__tar} -C %{buildroot}%{eclipse_base} -xvf output/pi.eclipse.cle_%{version}.tar.bz2
+%{__mkdir_p} %{buildroot}%{install_dir}
+%{__tar} -C %{buildroot}%{install_dir} -xvf output/pi.eclipse.cle_%{version}.tar.bz2
 
-%{__mkdir_p} %{buildroot}%{eclipse_base}/plugins/pi.eclipse.cle_%{version}
-(cd %{buildroot}%{eclipse_base}/plugins/pi.eclipse.cle_%{version} && %{jar} xf %{buildroot}%{eclipse_base}/plugins/pi.eclipse.cle_%{version}.jar)
-%{__rm} %{buildroot}%{eclipse_base}/plugins/pi.eclipse.cle_%{version}.jar
+%{__mkdir_p} %{buildroot}%{install_dir}/plugins/pi.eclipse.cle_%{version}
+(cd %{buildroot}%{install_dir}/plugins/pi.eclipse.cle_%{version} && %{jar} xf %{buildroot}%{install_dir}/plugins/pi.eclipse.cle_%{version}.jar)
+%{__rm} %{buildroot}%{install_dir}/plugins/pi.eclipse.cle_%{version}.jar
 
-%{__mkdir_p} %{buildroot}%{eclipse_base}/plugins/pi.eclipse.cle_%{version}/lib
-pushd %{buildroot}%{eclipse_base}/plugins/pi.eclipse.cle_%{version}/lib
+%{__mkdir_p} %{buildroot}%{install_dir}/plugins/pi.eclipse.cle_%{version}/lib
+pushd %{buildroot}%{install_dir}/plugins/pi.eclipse.cle_%{version}/lib
 %{__ln_s} %{_javadir}/java-cup-runtime.jar java-cup-11-runtime.jar
 %{__ln_s} %{_javadir}/java-cup.jar java-cup-11.jar
 %{__ln_s} %{_javadir}/jflex.jar jflex-1.4.1.jar
@@ -105,9 +106,7 @@ pushd %{buildroot}%{eclipse_base}/plugins/pi.eclipse.cle_%{version}/lib
 %{__ln_s} %{_javadir}/velocity.jar velocity-dep-1.4.jar
 popd
 
-%if %{gcj_support}
-%{_bindir}/aot-compile-rpm
-%endif
+%{gcj_compile}
 
 %clean 
 %{__rm} -rf %{buildroot}
@@ -123,9 +122,5 @@ popd
 %files
 %defattr(0644,root,root,0755)
 %doc web/*.html
-%{eclipse_base}/features/*
-%{eclipse_base}/plugins/*
-%if %{gcj_support}
-%dir %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/*
-%endif
+%{install_dir}
+%{gcj_files}
