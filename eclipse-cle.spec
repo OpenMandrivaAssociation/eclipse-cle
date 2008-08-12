@@ -30,7 +30,7 @@ BuildRequires:  velocity
 BuildRequires:  java-gcj-compat-devel
 %else
 BuildRequires:  java-devel
-BuildArch:      noarch
+#BuildArch:      noarch
 %endif
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 
