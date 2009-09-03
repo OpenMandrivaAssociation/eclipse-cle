@@ -48,7 +48,7 @@ sources generation.
 
 %build
 for jar in \
-%{_libdir}/java/swt.jar \
+/usr/lib/java/swt.jar \
 %{eclipse_base}/plugins/org.eclipse.core.commands_%{eclipse_ver}*.*.jar \
 %{eclipse_base}/plugins/org.eclipse.core.filebuffers_%{eclipse_ver}*.*.jar \
 %{eclipse_base}/plugins/org.eclipse.core.resources_%{eclipse_ver}*.*.jar \
