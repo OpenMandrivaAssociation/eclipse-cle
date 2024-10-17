@@ -10,7 +10,7 @@ Epoch:          0
 Summary:        Provides editing of grammar and scanner specification files
 License:        EPL
 Group:          Development/Java
-URL:            http://cup-lex-eclipse.sourceforge.net/
+URL:            https://cup-lex-eclipse.sourceforge.net/
 Source0:        http://internap.dl.sourceforge.net/sourceforge/cup-lex-eclipse/pi.eclipse.cle-src-%{version}.tar.bz2
 Requires:       eclipse-platform >= 1:%{eclipse_ver}
 Requires:       jakarta-commons-collections
