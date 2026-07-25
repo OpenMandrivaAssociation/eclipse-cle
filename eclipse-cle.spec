@@ -5,7 +5,7 @@
 
 Name:           eclipse-cle
 Version:        0.1.6
-Release:        %mkrel 0.0.3
+Release:        1
 Epoch:          0
 Summary:        Provides editing of grammar and scanner specification files
 License:        EPL
